@@ -333,7 +333,6 @@ void usb_device_task(void)
       (USBCON |= ((1 << USBE)));
       usb_connected = (1 == 1);
       usb_start_device();
-      ;
     }
   }
 

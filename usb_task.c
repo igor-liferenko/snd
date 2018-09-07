@@ -330,14 +330,12 @@ ISR(USB_GEN_vect)
     (USBINT = ~(1 << VBUSTI));
     if (((USBSTA & (1 << VBUS)) ? (1 == 1) : (0 == 1))) {
       usb_connected = (1 == 1);
-      ;
       (g_usb_event |= (1 << 1));
       (UDIEN |= (1 << EORSTE));
       usb_start_device();
       (UDCON &= ~(1 << DETACH));
     }
     else {
-      ;
       usb_connected = (0 == 1);
       usb_configuration_nb = 0;
       (g_usb_event |= (1 << 2));
@@ -347,7 +345,6 @@ ISR(USB_GEN_vect)
   if (((UDINT & (1 << SOFI)) ? (1 == 1) : (0 == 1))
       && ((UDIEN & (1 << SOFE)) ? (1 == 1) : (0 == 1))) {
     (UDINT = ~(1 << SOFI));
-    ;
   }
 
   if (((UDINT & (1 << SUSPI)) ? (1 == 1) : (0 == 1))
@@ -360,7 +357,6 @@ ISR(USB_GEN_vect)
     (UDIEN &= ~(1 << EORSME));
     (USBCON |= (1 << FRZCLK));
     (PLLCSR &= (~(1 << PLLE)), PLLCSR = 0);
-    ;
   }
 
   if (((UDINT & (1 << WAKEUPI)) ? (1 == 1) : (0 == 1))
@@ -383,7 +379,6 @@ ISR(USB_GEN_vect)
       (UDIEN |= (1 << EORSTE));
       (UDINT = ~(1 << WAKEUPI));
       (UDIEN &= ~(1 << WAKEUPE));
-      ;
       (g_usb_event |= (1 << 6));
       (UDIEN |= (1 << SUSPE));
       (UDIEN |= (1 << EORSME));
@@ -398,7 +393,6 @@ ISR(USB_GEN_vect)
     (UDIEN &= ~(1 << WAKEUPE));
     (UDINT = ~(1 << EORSMI));
     (UDIEN &= ~(1 << EORSME));
-    ;
     (g_usb_event |= (1 << 7));
   }
 
@@ -409,7 +403,6 @@ ISR(USB_GEN_vect)
 
     (UDINT = ~(1 << EORSTI));
     usb_init_device();
-    ;
     (g_usb_event |= (1 << 8));
   }
 

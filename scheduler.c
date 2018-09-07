@@ -57,11 +57,8 @@ void scheduler_empty_fct(void);
 void scheduler_init(void)
 {
   usb_task_init();
-  ;
 
   audio_task_init();
-  ;
-  ;
 }
 
 void scheduler_tasks(void)
@@ -70,13 +67,10 @@ void scheduler_tasks(void)
   scheduler_empty_fct();
 
   for (;;) {
-    ;
 
     usb_task();
-    ;
 
     audio_task();
-    ;
   }
 }
 
