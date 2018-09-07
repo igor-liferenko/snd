@@ -5,5 +5,7 @@ HINT: compile Atmel's audio demo and see wireshark trace what is used and take o
 and use '@i OUT-endpoint-management.w' in this program
 
 The plan is this:
-first make it play, then in each function output byte to UART and which byte will not
+First make it play in audacity (see via cat /proc/asound/card1/pcm*p/sub*/hw_params when it will be playing), then in each function output byte to UART and which byte will not
 appear, remove that function.
+
+HINT: trace ordinary sound card and compare
