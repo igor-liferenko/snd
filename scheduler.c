@@ -1,21 +1,17 @@
 typedef float Float16;
 
-typedef unsigned char U8 ;
+typedef unsigned char U8;
 typedef unsigned short U16;
 typedef unsigned long U32;
-typedef signed char S8 ;
+typedef signed char S8;
 typedef signed short S16;
 typedef long S32;
 
-
-
 typedef unsigned char Bool;
-
 
 typedef U8 Status;
 typedef Bool Status_bool;
 typedef unsigned char Uchar;
-
 
 typedef unsigned char Uint8;
 typedef unsigned int Uint16;
@@ -29,15 +25,13 @@ typedef unsigned char Byte;
 typedef unsigned int Word;
 typedef unsigned long int DWord;
 
-typedef union
-{
+typedef union {
   Uint32 dw;
   Uint16 w[2];
   Uint8 b[4];
 } Union32;
 
-typedef union
-{
+typedef union {
   Uint16 w;
   Uint8 b[2];
 } Union16;
@@ -48,79 +42,50 @@ typedef char r_uart_ptchar;
 #include  <avr/io.h>
 U8 flash_read_sig(unsigned long adr);
 
-
-
-
-
-
-
 U8 flash_read_fuse(unsigned long adr);
-   U16 Get_adc_mic_val(void);
-   U16 Get_adc_temp_val(void);
-   S16 Read_temperature(void);
-  extern void  usb_task_init  (void);
-  extern void  audio_task_init  (void);
-  extern void  usb_task  (void);
-  extern void  audio_task  (void);
-void scheduler_init (void);
-void scheduler_tasks (void);
-void scheduler (void);
-void scheduler_empty_fct (void);
-void scheduler_init (void)
+U16 Get_adc_mic_val(void);
+U16 Get_adc_temp_val(void);
+S16 Read_temperature(void);
+extern void usb_task_init(void);
+extern void audio_task_init(void);
+extern void usb_task(void);
+extern void audio_task(void);
+void scheduler_init(void);
+void scheduler_tasks(void);
+void scheduler(void);
+void scheduler_empty_fct(void);
+void scheduler_init(void)
 {
-      usb_task_init ();
-      ;
+  usb_task_init();
+  ;
 
-
-      audio_task_init ();
-      ;
-   ;
+  audio_task_init();
+  ;
+  ;
 }
 
-
-
-
-
-
-
-void scheduler_tasks (void)
+void scheduler_tasks(void)
 {
 
-   scheduler_empty_fct();
+  scheduler_empty_fct();
 
-   for(;;)
-   {
-      ;
+  for (;;) {
+    ;
 
-         usb_task ();
-         ;
+    usb_task();
+    ;
 
-
-         audio_task ();
-         ;
-   }
+    audio_task();
+    ;
+  }
 }
 
-
-
-
-
-
-
-void scheduler (void)
+void scheduler(void)
 {
-   scheduler_init();
-   scheduler_tasks();
+  scheduler_init();
+  scheduler_tasks();
 }
 
-
-
-
-
-
-
-
-
-void scheduler_empty_fct (void)
+void scheduler_empty_fct(void)
 {
 }
