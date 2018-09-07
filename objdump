@@ -3966,9 +3966,9 @@ Disassembly of section .text:
     2010:	80 7f       	andi	r24, 0xF0	; 240
     2012:	82 bf       	out	0x32, r24	; 50
     2014:	82 b7       	in	r24, 0x32	; 50
-    2016:	8a 64       	ori	r24, 0x4A	; 74
+    2016:	84 60       	ori	r24, 0x04	; 4
     2018:	82 bf       	out	0x32, r24	; 50
-    201a:	82 e0       	ldi	r24, 0x02	; 2
+    201a:	82 e1       	ldi	r24, 0x12	; 18
     201c:	89 bd       	out	0x29, r24	; 41
     201e:	09 b4       	in	r0, 0x29	; 41
     2020:	00 fe       	sbrs	r0, 0
@@ -4545,9 +4545,9 @@ Disassembly of section .text:
     263c:	80 7f       	andi	r24, 0xF0	; 240
     263e:	82 bf       	out	0x32, r24	; 50
     2640:	82 b7       	in	r24, 0x32	; 50
-    2642:	8a 64       	ori	r24, 0x4A	; 74
+    2642:	84 60       	ori	r24, 0x04	; 4
     2644:	82 bf       	out	0x32, r24	; 50
-    2646:	82 e0       	ldi	r24, 0x02	; 2
+    2646:	82 e1       	ldi	r24, 0x12	; 18
     2648:	89 bd       	out	0x29, r24	; 41
     264a:	09 b4       	in	r0, 0x29	; 41
     264c:	00 fe       	sbrs	r0, 0
