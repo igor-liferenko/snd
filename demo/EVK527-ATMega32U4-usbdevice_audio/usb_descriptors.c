@@ -1,363 +1,690 @@
-/*This file has been prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief USB parameters.
-//!
-//!  This file contains the usb parameters that uniquely identify the
-//!  application through descriptor tables.
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  ATmega32U4
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+typedef float Float16;
 
-/* Copyright (c) 2007, Atmel Corporation All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.
- *
- * 3. The name of ATMEL may not be used to endorse or promote products derived
- * from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY ATMEL ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE EXPRESSLY AND
- * SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+typedef unsigned char U8 ;
+typedef unsigned short U16;
+typedef unsigned long U32;
+typedef signed char S8 ;
+typedef signed short S16;
+typedef long S32;
 
 
-//_____ I N C L U D E S ____________________________________________________
 
-#include "config.h"
-#include "conf_usb.h"
-
-#include "lib_mcu/usb/usb_drv.h"
-#include "usb_descriptors.h"
-#include "modules/usb/device_chap9/usb_standard_request.h"
-#include "usb_specific_request.h"
+typedef unsigned char Bool;
 
 
-//_____ M A C R O S ________________________________________________________
+typedef U8 Status;
+typedef Bool Status_bool;
+typedef unsigned char Uchar;
+
+
+typedef unsigned char Uint8;
+typedef unsigned int Uint16;
+typedef unsigned long int Uint32;
+
+typedef char Int8;
+typedef int Int16;
+typedef long int Int32;
+
+typedef unsigned char Byte;
+typedef unsigned int Word;
+typedef unsigned long int DWord;
+
+typedef union
+{
+  Uint32 dw;
+  Uint16 w[2];
+  Uint8 b[4];
+} Union32;
+
+typedef union
+{
+  Uint16 w;
+  Uint8 b[2];
+} Union16;
+typedef char p_uart_ptchar;
+typedef char r_uart_ptchar;
+#include  <avr/interrupt.h>
+#include  <avr/pgmspace.h>
+#include  <avr/io.h>
+U8 flash_read_sig(unsigned long adr);
 
 
 
 
-//_____ D E F I N I T I O N ________________________________________________
 
-// usb_user_device_descriptor
-const code S_usb_device_descriptor usb_dev_desc =
+
+
+U8 flash_read_fuse(unsigned long adr);
+   U16 Get_adc_mic_val(void);
+   U16 Get_adc_temp_val(void);
+   S16 Read_temperature(void);
+extern void suspend_action(void);
+typedef enum endpoint_parameter{ep_num, ep_type, ep_direction, ep_size, ep_bank, nyet_status} t_endpoint_parameter;
+U8 usb_config_ep (U8, U8);
+U8 usb_select_enpoint_interrupt (void);
+U16 usb_get_nb_byte_epw (void);
+U8 usb_send_packet (U8 , U8*, U8);
+U8 usb_read_packet (U8 , U8*, U8);
+void usb_halt_endpoint (U8);
+void usb_reset_endpoint (U8);
+U8 usb_init_device (void);
+extern volatile U16 g_usb_event;
+extern U8 g_usb_mode;
+extern U8 usb_remote_wup_feature;
+void usb_task_init (void);
+void usb_task (void);
+
+extern volatile U8 private_sof_counter;
+void usb_process_request( void);
+
+
+
+
+
+
+
+
+
+
+void usb_generate_remote_wakeup(void);
+
+extern U8 usb_configuration_nb;
+extern U8 remote_wakeup_feature;
+typedef struct
+{
+   U8 bmRequestType;
+   U8 bRequest;
+   U16 wValue;
+   U16 wIndex;
+   U16 wLength;
+} S_UsbRequest;
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U16 bscUSB;
+   U8 bDeviceClass;
+   U8 bDeviceSubClass;
+   U8 bDeviceProtocol;
+   U8 bMaxPacketSize0;
+   U16 idVendor;
+   U16 idProduct;
+   U16 bcdDevice;
+   U8 iManufacturer;
+   U8 iProduct;
+   U8 iSerialNumber;
+   U8 bNumConfigurations;
+} S_usb_device_descriptor;
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U16 wTotalLength;
+   U8 bNumInterfaces;
+   U8 bConfigurationValue;
+   U8 iConfiguration;
+   U8 bmAttibutes;
+   U8 MaxPower;
+} S_usb_configuration_descriptor;
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U8 bInterfaceNumber;
+   U8 bAlternateSetting;
+   U8 bNumEndpoints;
+   U8 bInterfaceClass;
+   U8 bInterfaceSubClass;
+   U8 bInterfaceProtocol;
+   U8 iInterface;
+} S_usb_interface_descriptor;
+
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U8 bDescritorSubtype;
+   U16 bcdADC;
+   U16 wTotalLength;
+   U8 bInCollection;
+   U8 baInterface1;
+   U8 baInterface2;
+} S_usb_ac_interface_descriptor;
+
+
+typedef struct{
+   U8 bLenght;
+   U8 bDescriptorType;
+   U8 bDescriptorSubType;
+   U8 bTerminalID;
+   U16 wTerminalType;
+   U8 bAssocTerminal;
+   U8 bNrChannels;
+   U16 wChannelConfig;
+   U8 iChannelNames;
+   U8 iTerminal;
+} S_usb_in_ter_descriptor;
+
+
+typedef struct{
+   U8 bLenght;
+   U8 bDescriptorType;
+   U8 bDescriptorSubType;
+   U8 bUnitID;
+   U8 bSourceID;
+   U8 bControSize;
+   U8 bmaControlMaster;
+   U8 bmaControlCh1;
+} S_usb_feature_unit_descriptor_speaker;
+
+
+typedef struct{
+   U8 bLenght;
+   U8 bDescriptorType;
+   U8 bDescriptorSubType;
+   U8 bUnitID;
+   U8 bSourceID;
+   U8 bControSize;
+   U8 bmaControlMaster;
+   U8 bmaControlCh1;
+} S_usb_feature_unit_descriptor_micro;
+
+
+typedef struct{
+   U8 bLenght;
+   U8 bDescriptorType;
+   U8 bDescriptorSubType;
+   U8 bTerminalID;
+   U16 wTerminalType;
+   U8 bAssocTerminal;
+   U8 bSourceID;
+   U8 iTerminal;
+} S_usb_out_ter_descriptor;
+
+
+typedef struct{
+   U8 bLenght;
+   U8 bDescriptorType;
+   U8 bDescriptorSubType;
+   U8 bTerminalLink;
+   U8 bDelay;
+   U16 wFormatTag;
+} S_usb_as_interface_descriptor;
+
+
+typedef struct{
+   U8 bLenght;
+   U8 bDescriptorType;
+   U8 bDescriptorSubType;
+   U8 bFormatType;
+   U8 bNrChannels;
+   U8 bSubFrameSize;
+   U8 bBitResolution;
+   U8 bSampleFreqType;
+   U16 wLsbyteiSamFreq;
+   U8 bMsbyteiSamFreq;
+} S_usb_format_type;
+
+
+typedef struct{
+   U8 bLenght;
+   U8 bDescriptorType;
+   U8 bDescriptorSubType;
+   U8 bmAttributes;
+   U8 bLockDelayUnits;
+   U16 wLockDelay;
+}S_usb_endpoint_audio_specific;
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U8 bEndpointAddress;
+   U8 bmAttributes;
+   U16 wMaxPacketSize;
+   U8 bInterval;
+   U8 bRefresh;
+   U8 bSynAddress;
+} S_usb_endpoint_audio_descriptor;
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U8 bEndpointAddress;
+   U8 bmAttributes;
+   U16 wMaxPacketSize;
+   U8 bInterval;
+} S_usb_endpoint_descriptor;
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U16 bscUSB;
+   U8 bDeviceClass;
+   U8 bDeviceSubClass;
+   U8 bDeviceProtocol;
+   U8 bMaxPacketSize0;
+   U8 bNumConfigurations;
+   U8 bReserved;
+} S_usb_device_qualifier_descriptor;
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U16 wlangid;
+} S_usb_language_id;
+
+
+
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U16 wstring[ 5 ];
+} S_usb_manufacturer_string_descriptor;
+
+
+
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U16 wstring[ 18 ];
+} S_usb_product_string_descriptor;
+
+
+
+
+
+
+typedef struct {
+   U8 bLength;
+   U8 bDescriptorType;
+   U16 wstring[ 0x05 ];
+} S_usb_serial_number;
+
+
+
+
+typedef struct
+{
+   S_usb_configuration_descriptor cfg;
+   S_usb_interface_descriptor ifc;
+   S_usb_ac_interface_descriptor audioac;
+   S_usb_in_ter_descriptor speaker_in_ter;
+   S_usb_feature_unit_descriptor_speaker speaker_fea_unit;
+   S_usb_out_ter_descriptor speaker_out_ter;
+   S_usb_in_ter_descriptor mic_in_ter;
+   S_usb_feature_unit_descriptor_micro mic_fea_unit;
+   S_usb_out_ter_descriptor mic_out_ter;
+   S_usb_interface_descriptor speaker_as_alt0;
+   S_usb_interface_descriptor speaker_as_alt1;
+   S_usb_as_interface_descriptor speaker_g_as;
+   S_usb_format_type speaker_format_type;
+   S_usb_endpoint_audio_descriptor speaker_ep1;
+   S_usb_endpoint_audio_specific speaker_ep1_s;
+   S_usb_interface_descriptor mic_as_alt0;
+   S_usb_interface_descriptor mic_as_alt1;
+   S_usb_as_interface_descriptor mic_g_as;
+   S_usb_format_type mic_format_type;
+   S_usb_endpoint_audio_descriptor mic_ep1;
+   S_usb_endpoint_audio_specific mic_ep1_s;
+} S_usb_user_configuration_descriptor;
+
+
+
+extern const  PROGMEM  S_usb_device_descriptor usb_dev_desc;
+extern const  PROGMEM  S_usb_user_configuration_descriptor usb_conf_desc;
+extern const  PROGMEM  S_usb_user_configuration_descriptor usb_other_conf_desc;
+extern const  PROGMEM  S_usb_device_qualifier_descriptor usb_qual_desc;
+extern const  PROGMEM  S_usb_manufacturer_string_descriptor usb_user_manufacturer_string_descriptor;
+extern const  PROGMEM  S_usb_product_string_descriptor usb_user_product_string_descriptor;
+extern const  PROGMEM  S_usb_serial_number usb_user_serial_number;
+extern const  PROGMEM  S_usb_language_id usb_user_language_id;
+
+
+
+
+
+Bool usb_user_read_request (U8, U8);
+Bool usb_user_get_descriptor (U8 , U8);
+void usb_user_endpoint_init (U8);
+
+
+void audio_speaker_set_mute (void);
+void audio_speaker_get_mute (void);
+void audio_speaker_set_volume (void);
+void audio_speaker_get_vol_cur (void);
+void audio_speaker_get_vol_min (void);
+void audio_speaker_get_vol_max (void);
+void audio_speaker_get_vol_res (void);
+
+
+void audio_micro_set_mute (void);
+void audio_micro_get_mute (void);
+void audio_micro_set_volume (void);
+void audio_micro_get_vol_cur (void);
+void audio_micro_get_vol_min (void);
+void audio_micro_get_vol_max (void);
+void audio_micro_get_vol_res (void);
+
+
+
+
+
+
+
+
+
+
+const  PROGMEM  S_usb_device_descriptor usb_dev_desc =
 {
   sizeof(usb_dev_desc)
-, DESCRIPTOR_DEVICE
-, Usb_write_word_enum_struc(USB_SPECIFICATION)
-, DEVICE_CLASS
-, DEVICE_SUB_CLASS
-, DEVICE_PROTOCOL
-, EP_CONTROL_LENGTH
-, Usb_write_word_enum_struc(VENDOR_ID)
-, Usb_write_word_enum_struc(PRODUCT_ID)
-, Usb_write_word_enum_struc(RELEASE_NUMBER)
-, MAN_INDEX
-, PROD_INDEX
-, SN_INDEX
-, NB_CONFIGURATION
+,  0x01
+,  ( 0x0200 )
+,  0
+,  0
+,  0
+,  32
+,  ( 0x03EB )
+,  ( 0x201B )
+,  ( 0x1000 )
+,  0x01
+,  0x02
+,  0x03
+,  1
 };
 
-// usb_user_configuration_descriptor FS
-const code S_usb_user_configuration_descriptor usb_conf_desc = {
+
+const  PROGMEM  S_usb_user_configuration_descriptor usb_conf_desc = {
  { sizeof(S_usb_configuration_descriptor)
- , DESCRIPTOR_CONFIGURATION
- , Usb_write_word_enum_struc(sizeof(S_usb_user_configuration_descriptor))
- , NB_INTERFACE
- , CONF_NB
- , CONF_INDEX
- , CONF_ATTRIBUTES
- , MAX_POWER
+ ,  0x02
+ ,  (sizeof(S_usb_user_configuration_descriptor))
+ ,  3
+ ,  1
+ ,  0
+ ,  ( 0x80 | 0x00)
+ ,  50
  }
  ,
- 
- //** The first interface is the Control Audio Interface
- // The AudioControl (AC) interface descriptors contain all relevant information to fully characterize the corresponding audio function.
+
+
+
  { sizeof(S_usb_interface_descriptor)
- , DESCRIPTOR_INTERFACE
- , AC_INTERFACE_NB
- , AC_ALTERNATE
- , AC_NB_ENDPOINT
- , AC_INTERFACE_CLASS
- , AC_INTERFACE_SUB_CLASS
- , AC_INTERFACE_PROTOCOL
- , AC_INTERFACE_INDEX
+ ,  0x04
+ ,  0
+ ,  0
+ ,  0
+ ,  0x01
+ ,  0x01
+ ,  0x00
+ ,  0
  }
  ,
- // Class-Specific AC Interface Descriptor
+
  { sizeof(S_usb_ac_interface_descriptor)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AC_HEADER
- ,Usb_write_word_enum_struc(AUDIO_CLASS_REVISION)
- ,Usb_write_word_enum_struc(sizeof(S_usb_ac_interface_descriptor)\
-               +sizeof(S_usb_in_ter_descriptor)+sizeof(S_usb_feature_unit_descriptor_speaker)+sizeof(S_usb_out_ter_descriptor)\
-               +sizeof(S_usb_in_ter_descriptor)+sizeof(S_usb_feature_unit_descriptor_micro)+sizeof(S_usb_out_ter_descriptor))
- ,NB_OF_STREAMING_INTERFACE
- ,STD_AS_IN_INTERFACE_NB
- ,STD_AS_OUT_INTERFACE_NB
+ , 0x24
+ , 0x01
+ , ( 0x0100 )
+ , (sizeof(S_usb_ac_interface_descriptor) +sizeof(S_usb_in_ter_descriptor)+sizeof(S_usb_feature_unit_descriptor_speaker)+sizeof(S_usb_out_ter_descriptor) +sizeof(S_usb_in_ter_descriptor)+sizeof(S_usb_feature_unit_descriptor_micro)+sizeof(S_usb_out_ter_descriptor))
+ , 0x02
+ , 0x02
+ , 0x01
  }
  ,
- 
- //* Desccriptors for speaker
- // Class-Specific Input Terminal Descriptor
+
+
+
  { sizeof(S_usb_in_ter_descriptor)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AC_INPUT_TERMINAL
- ,SPEAKER_INPUT_TERMINAL_ID
- ,Usb_write_word_enum_struc(SPEAKER_INPUT_TERMINAL_TYPE)
- ,SPEAKER_INPUT_TERMINAL_ASSOCIATION
- ,SPEAKER_INPUT_TERMINAL_NB_CHANNELS
- ,SPEAKER_INPUT_TERMINAL_CHANNEL_CONF
- ,SPEAKER_INPUT_TERMINAL_CH_NAME_ID
- ,SPEAKER_INPUT_TERMINAL_NAME_ID
+ , 0x24
+ , 0x02
+ , 0x01
+ , ( 0x0101 )
+ , 0x00
+ , 0x01
+ , 0x0000
+ , 0x00
+ , 0x00
  }
  ,
- // Class-Specific Feature Unit Descriptor
+
  { sizeof(S_usb_feature_unit_descriptor_speaker)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AC_FEATURE_UNIT
- ,SPEAKER_FEATURE_UNIT_ID
- ,SPEAKER_FEATURE_UNIT_SOURCE_ID
+ , 0x24
+ , 0x06
+ , 0x02
+ , 0x01
  ,0x01
- ,SPEAKER_FEATURE_UNIT_CTRL_CH_MASTER
- ,SPEAKER_FEATURE_UNIT_CTRL_CH_1
+ , ( 0x01 | 0x02 )
+ , 0x00
  }
  ,
- // Class-Specific Output Terminal Descriptor
+
  { sizeof(S_usb_out_ter_descriptor)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AC_OUTPUT_TERMINAL
- ,SPEAKER_OUTPUT_TERMINAL_ID
- ,Usb_write_word_enum_struc(SPEAKER_OUTPUT_TERMINAL_TYPE)
- ,SPEAKER_OUTPUT_TERMINAL_ASSOCIATION
- ,SPEAKER_OUTPUT_TERMINAL_SOURCE_ID
- ,SPEAKER_OUTPUT_TERMINAL_NAME_ID
+ , 0x24
+ , 0x03
+ , 0x03
+ , ( 0x0301 )
+ , 0x00
+ , 0x02
+ , 0x00
  }
  ,
- //* Desccriptors for micro
- // Class-Specific Input Terminal Descriptor
+
+
  { sizeof(S_usb_in_ter_descriptor)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AC_INPUT_TERMINAL
- ,MICRO_INPUT_TERMINAL_ID
- ,Usb_write_word_enum_struc(MICRO_INPUT_TERMINAL_TYPE)
- ,MICRO_INPUT_TERMINAL_ASSOCIATION
- ,MICRO_INPUT_TERMINAL_NB_CHANNELS
- ,MICRO_INPUT_TERMINAL_CHANNEL_CONF
- ,MICRO_INPUT_TERMINAL_CH_NAME_ID
- ,MICRO_INPUT_TERMINAL_NAME_ID
+ , 0x24
+ , 0x02
+ , 0x04
+ , ( 0x0201 )
+ , 0x00
+ , 0x01
+ , 0x0000
+ , 0x00
+ , 0x00
  }
  ,
- // Class-Specific Feature Unit Descriptor
+
  { sizeof(S_usb_feature_unit_descriptor_micro)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AC_FEATURE_UNIT
- ,MICRO_FEATURE_UNIT_ID
- ,MICRO_FEATURE_UNIT_SOURCE_ID
+ , 0x24
+ , 0x06
+ , 0x05
+ , 0x04
  ,0x01
- ,MICRO_FEATURE_UNIT_CTRL_CH_MASTER
- ,MICRO_FEATURE_UNIT_CTRL_CH_1
+ , ( 0x01 | 0x02 )
+ , 0x00
  }
  ,
- // Class-Specific Output Terminal Descriptor
+
  { sizeof(S_usb_out_ter_descriptor)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AC_OUTPUT_TERMINAL
- ,MICRO_OUTPUT_TERMINAL_ID
- ,Usb_write_word_enum_struc(MICRO_OUTPUT_TERMINAL_TYPE)
- ,MICRO_OUTPUT_TERMINAL_ASSOCIATION
- ,MICRO_OUTPUT_TERMINAL_SOURCE_ID
- ,MICRO_OUTPUT_TERMINAL_NAME_ID
+ , 0x24
+ , 0x03
+ , 0x06
+ , ( 0x0101 )
+ , 0x00
+ , 0x05
+ , 0x00
  }
  ,
- 
- //** The second interface is the Audio Stream Interface for Speaker (with two alternate interface)
- // Standard AS Interface Descriptor (Alternate 0 without endpoint)
+
+
+
  { sizeof(S_usb_interface_descriptor)
- ,DESCRIPTOR_INTERFACE
- ,STD_AS_OUT_INTERFACE_NB
- ,ALT0_AS_OUT_INTERFACE_INDEX
- ,ALT0_AS_OUT_NB_ENDPOINT
- ,ALT0_AS_OUT_INTERFACE_CLASS
- ,ALT0_AS_OUT_INTERFACE_SUB_CLASS
- ,ALT0_AS_OUT_INTERFACE_PROTOCOL
+ , 0x04
+ , 0x01
+ , 0x00
+ , 0x00
+ , 0x01
+ , 0x02
+ , 0x00
  ,0x00
  }
  ,
- // Standard AS Interface Descriptor (Alternate 1 with 1 endpoint)
+
  { sizeof(S_usb_interface_descriptor)
- ,DESCRIPTOR_INTERFACE
- ,STD_AS_OUT_INTERFACE_NB
- ,ALT1_AS_OUT_INTERFACE_INDEX
- ,ALT1_AS_OUT_NB_ENDPOINT
- ,ALT1_AS_OUT_INTERFACE_CLASS
- ,ALT1_AS_OUT_INTERFACE_SUB_CLASS
- ,ALT1_AS_OUT_INTERFACE_PROTOCOL
+ , 0x04
+ , 0x01
+ , 0x01
+ , 0x01
+ , 0x01
+ , 0x02
+ , 0x00
  ,0x00
  }
  ,
- // Class-Specific AS Interface Descriptor
+
  { sizeof(S_usb_as_interface_descriptor)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AS_GENERAL
- ,AS_OUT_TERMINAL_LINK
- ,AS_OUT_DELAY
- ,Usb_write_word_enum_struc(AS_OUT_FORMAT_TAG)
+ , 0x24
+ , 0x01
+ , 0x01
+ , 0x01
+ , ( 0x0001 )
  }
  ,
  { sizeof(S_usb_format_type)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AS_FORMAT_TYPE
- ,OUT_FORMAT_TYPE
- ,OUT_FORMAT_NB_CHANNELS
- ,OUT_FORMAT_FRAME_SIZE
- ,OUT_FORMAT_BIT_RESOLUTION
- ,OUT_FORMAT_SAMPLE_FREQ_NB
- ,Usb_write_word_enum_struc(OUT_FORMAT_LSBYTE_SAMPLE_FREQ)
- ,OUT_FORMAT_MSBYTE_SAMPLE_FREQ
+ , 0x24
+ , 0x02
+ , 0x01
+ , 0x01
+ , 0x02
+ , 0x10
+ , 0x01
+ , ( 0x7D00 )
+ , 0x00
  }
  ,
  { sizeof(S_usb_endpoint_audio_descriptor)
- , DESCRIPTOR_ENDPOINT
- , ENDPOINT_NB_OUT
- , EP_ATTRIBUTES_OUT
- , Usb_write_word_enum_struc(EP_SIZE_OUT)
- , EP_INTERVAL_OUT
+ ,  0x05
+ ,  ( 1 | 0x00 )
+ ,  0x01
+ ,  ( (128) )
+ ,  0x01
  , 0x00
  , 0x00
  }
  ,
  { sizeof(S_usb_endpoint_audio_specific)
- ,DESCRIPTOR_AUDIO_ENDPOINT
- ,DESCRIPTOR_SUBTYPE_AUDIO_ENDP_GENERAL
- ,AUDIO_EP_OUT_ATRIBUTES
- ,AUDIO_EP_OUT_DELAY_UNIT
- ,Usb_write_word_enum_struc(AUDIO_EP_OUT_LOCK_DELAY)
+ , 0x25
+ , 0x01
+ , 0x00
+ , 0x00
+ , ( 0x0000 )
  }
  ,
- 
- //** The thirh interface is the Audio Stream Interface for Micro (with two alternate interface)
- // Standard AS Interface Descriptor (Alternate 0 without endpoint)
+
+
+
  { sizeof(S_usb_interface_descriptor)
- ,DESCRIPTOR_INTERFACE
- ,STD_AS_IN_INTERFACE_NB
- ,ALT0_AS_IN_INTERFACE_INDEX
- ,ALT0_AS_IN_NB_ENDPOINT
- ,ALT0_AS_IN_INTERFACE_CLASS
- ,ALT0_AS_IN_INTERFACE_SUB_CLASS
- ,ALT0_AS_IN_INTERFACE_PROTOCOL
+ , 0x04
+ , 0x02
+ , 0x00
+ , 0x00
+ , 0x01
+ , 0x02
+ , 0x00
  ,0x00
  }
  ,
- // Standard AS Interface Descriptor (Alternate 1 with 1 endpoint)
+
  { sizeof(S_usb_interface_descriptor)
- ,DESCRIPTOR_INTERFACE
- ,STD_AS_IN_INTERFACE_NB
- ,ALT1_AS_IN_INTERFACE_INDEX
- ,ALT1_AS_IN_NB_ENDPOINT
- ,ALT1_AS_IN_INTERFACE_CLASS
- ,ALT1_AS_IN_INTERFACE_SUB_CLASS
- ,ALT1_AS_IN_INTERFACE_PROTOCOL
+ , 0x04
+ , 0x02
+ , 0x01
+ , 0x01
+ , 0x01
+ , 0x02
+ , 0x00
  ,0x00
  }
  ,
- // Class-Specific AS Interface Descriptor
+
  { sizeof(S_usb_as_interface_descriptor)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AS_GENERAL
- ,AS_IN_TERMINAL_LINK
- ,AS_IN_DELAY
- ,Usb_write_word_enum_struc(AS_IN_FORMAT_TAG)
+ , 0x24
+ , 0x01
+ , 0x06
+ , 0x01
+ , ( 0x0001 )
  }
  ,
  { sizeof(S_usb_format_type)
- ,DESCRIPTOR_AUDIO_INTERFACE
- ,DESCRIPTOR_SUBTYPE_AUDIO_AS_FORMAT_TYPE
- ,IN_FORMAT_TYPE
- ,IN_FORMAT_NB_CHANNELS
- ,IN_FORMAT_FRAME_SIZE
- ,IN_FORMAT_BIT_RESOLUTION
- ,IN_FORMAT_SAMPLE_FREQ_NB
- ,Usb_write_word_enum_struc(IN_FORMAT_LSBYTE_SAMPLE_FREQ)
- ,IN_FORMAT_MSBYTE_SAMPLE_FREQ
+ , 0x24
+ , 0x02
+ , 0x01
+ , 0x01
+ , 0x02
+ , 0x10
+ , 0x01
+ , ( 0x1F40 )
+ , 0x00
  }
  ,
  { sizeof(S_usb_endpoint_audio_descriptor)
- , DESCRIPTOR_ENDPOINT
- , ENDPOINT_NB_IN
- , EP_ATTRIBUTES_IN
- , Usb_write_word_enum_struc(EP_SIZE_IN)
- , EP_INTERVAL_IN
+ ,  0x05
+ ,  ( 2 | 0x80 )
+ ,  0x01
+ ,  ( 16 )
+ ,  0x01
  , 0x00
  , 0x00
  }
  ,
  { sizeof(S_usb_endpoint_audio_specific)
- ,DESCRIPTOR_AUDIO_ENDPOINT
- ,DESCRIPTOR_SUBTYPE_AUDIO_ENDP_GENERAL
- ,AUDIO_EP_IN_ATRIBUTES
- ,AUDIO_EP_IN_DELAY_UNIT
- ,Usb_write_word_enum_struc(AUDIO_EP_IN_LOCK_DELAY)
- } 
+ , 0x25
+ , 0x01
+ , 0x00
+ , 0x00
+ , ( 0x0000 )
+ }
 };
 
 
 
-                                      // usb_user_manufacturer_string_descriptor
-const code S_usb_manufacturer_string_descriptor usb_user_manufacturer_string_descriptor = {
+
+const  PROGMEM  S_usb_manufacturer_string_descriptor usb_user_manufacturer_string_descriptor = {
   sizeof(usb_user_manufacturer_string_descriptor)
-, DESCRIPTOR_STRING
-, USB_MANUFACTURER_NAME
+,  0x03
+,  { ((U16)('A')) , ((U16)('T')) , ((U16)('M')) , ((U16)('E')) , ((U16)('L')) }
 };
 
 
-                                      // usb_user_product_string_descriptor
 
-const code S_usb_product_string_descriptor usb_user_product_string_descriptor = {
+
+const  PROGMEM  S_usb_product_string_descriptor usb_user_product_string_descriptor = {
   sizeof(usb_user_product_string_descriptor)
-, DESCRIPTOR_STRING
-, USB_PRODUCT_NAME
+,  0x03
+,  { ((U16)('A')) , ((U16)('V')) , ((U16)('R')) , ((U16)(' ')) , ((U16)('U')) , ((U16)('S')) , ((U16)('B')) , ((U16)(' ')) , ((U16)('A')) , ((U16)('U')) , ((U16)('D')) , ((U16)('I')) , ((U16)('O')) , ((U16)(' ')) , ((U16)('D')) , ((U16)('E')) , ((U16)('M')) , ((U16)('O')) }
 };
 
 
-                                      // usb_user_serial_number
 
-const code S_usb_serial_number usb_user_serial_number = {
+
+const  PROGMEM  S_usb_serial_number usb_user_serial_number = {
   sizeof(usb_user_serial_number)
-, DESCRIPTOR_STRING
-, USB_SERIAL_NUMBER
+,  0x03
+,  { ((U16)('1')) , ((U16)('.')) , ((U16)('0')) , ((U16)('.')) , ((U16)('0')) }
 };
 
 
-                                      // usb_user_language_id
 
-const code S_usb_language_id usb_user_language_id = {
+
+const  PROGMEM  S_usb_language_id usb_user_language_id = {
   sizeof(usb_user_language_id)
-, DESCRIPTOR_STRING
-, Usb_write_word_enum_struc(LANGUAGE_ID)
+,  0x03
+,  ( 0x0409 )
 };
-
-
-
-
