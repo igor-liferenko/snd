@@ -8,3 +8,12 @@ read libasound2-doc and do that pcm/ will work like alsa/
 ensure via wireshark that file is transmitted as-is
 
 use '@i OUT-endpoint-management.w' in this program
+
+When you will merge this with avrtel/, pay attention to this:
+
+One major issue with CDC-ACM is that it requires two Interface descriptors,
+which will upset most hosts when part of a multi-function "Composite" USB
+device. This is because each interface will be loaded into a separate driver
+instance, causing the two interfaces be become unlinked. To prevent this, you
+should use the "Interface Association Descriptor" addendum to the USB 2.0 standard
+which is available on most OSes when creating Composite devices.
