@@ -1,5 +1,6 @@
-Play via "aplay -D sysdefault:CARD=DEMO /usr/share/sounds/alsa/Front_Right.wav"
+Play via "aplay -D sysdefault:CARD=DEMO test.wav"
 and in each function output byte to UART and which byte will not appear, remove that function.
+(this works: aplay -D sysdefault:CARD=Generic test.wav, disable pulseaudio as said in "Dynamically enable/disable" at https://wiki.debian.org/PulseAudio if not)
 
 ensure via wireshark that file is transmitted as-is
 
