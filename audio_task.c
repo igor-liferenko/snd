@@ -1198,7 +1198,7 @@ void audio_task_init(void)
   (TCCR4D = (TCCR4A & (~((1 << WGM41) | (1 << WGM40)))) | (((0) & 0x3)));
   (TC4H = ((U16) (((U16) ((1 << 10) - 1)) >> 8)), OCR4C =
    ((U8) ((U16) ((1 << 10) - 1))));
-  (DDRD |= 0x80, TCCR4C |= (1 << 3), TCCR4C |= (1 << PWM4D));
+  (DDRD |= 1 << PD7, TCCR4C |= (1 << 3), TCCR4C |= (1 << PWM4D));
   (TCCR4B =
    (TCCR4B & (~((1 << CS43) | (1 << CS42) | (1 << CS41) | (1 << CS40)))) |
    ((1)));
