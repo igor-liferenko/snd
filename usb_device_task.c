@@ -318,8 +318,6 @@ void usb_start_device(void)
   (USBCON &= ~(1 << FRZCLK));
   (UDCON &= ~(1 << DETACH));
 
-  (UDCON &= ~(1 << RSTCPU));
-
   (UDIEN |= (1 << SUSPE));
   (UDIEN |= (1 << EORSTE));
   sei();
