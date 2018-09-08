@@ -18,5 +18,8 @@ all:
 	avr-gcc -mmcu=atmega32u4 -Wl,-Map=EVK527-ATMega32U4-usbdevice_audio.map,--cref,--gc-sections,--relax default/start_boot.o default/usb_drv.o default/power_drv.o default/adc_drv.o default/evk_527.o default/usb_device_task.o default/usb_standard_request.o default/usb_task.o default/scheduler.o default/audio_task.o default/usb_descriptors.o default/usb_specific_request.o default/main.o default/flash_drv.o    -o fw.elf
 	@avr-objcopy -O ihex fw.elf fw.hex
 
+dump:
+	@avr-objdump -d fw.elf
+
 flash:
 	@avrdude -qq -c usbasp -p atmega32u4 -U flash:w:fw.hex
