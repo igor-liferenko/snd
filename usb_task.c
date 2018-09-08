@@ -362,14 +362,8 @@ ISR(USB_GEN_vect)
   if (((UDINT & (1 << WAKEUPI)) ? (1 == 1) : (0 == 1))
       && ((UDIEN & (1 << WAKEUPE)) ? (1 == 1) : (0 == 1))) {
     if ((PLLCSR & (1 << PLOCK)) == (0 == 1)) {
-
-      (PLLFRQ &=
-       ~((1 << PDIV3) | (1 << PDIV2) | (1 << PDIV1) | (1 << PDIV0)),
-       PLLFRQ |=
-       ((0 << PDIV3) | (1 << PDIV2) | (0 << PDIV1) | (0 << PDIV0)) | (0 <<
-                                                                      PLLUSB),
-       PLLCSR = ((1 << PINDIV) | (1 << PLLE)));
-
+      PLLCSR = 1 << PINDIV;
+      PLLCSR |= 1 << PLLE;
       while (!(PLLCSR & (1 << PLOCK))) ;
     }
     (USBCON &= ~(1 << FRZCLK));
