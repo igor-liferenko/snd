@@ -84,7 +84,7 @@ int main(void)
   (UHWCON |= (1 << UVREGE));
 
   wdt_reset();
-  ((MCUSR = ~(1 << WDRF)));
+  ((MCUSR &= ~(1 << WDRF)));
   (WDTCSR |= (1 << WDCE));
   (WDTCSR = 0x00);
 

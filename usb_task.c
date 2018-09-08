@@ -327,7 +327,7 @@ ISR(USB_GEN_vect)
 
   if (((USBINT & (1 << VBUSTI)) ? (1 == 1) : (0 == 1))
       && ((USBCON & (1 << VBUSTE)) ? (1 == 1) : (0 == 1))) {
-    (USBINT = ~(1 << VBUSTI));
+    (USBINT &= ~(1 << VBUSTI));
     if (((USBSTA & (1 << VBUS)) ? (1 == 1) : (0 == 1))) {
       usb_connected = (1 == 1);
       (g_usb_event |= (1 << 1));
@@ -344,15 +344,15 @@ ISR(USB_GEN_vect)
 
   if (((UDINT & (1 << SOFI)) ? (1 == 1) : (0 == 1))
       && ((UDIEN & (1 << SOFE)) ? (1 == 1) : (0 == 1))) {
-    (UDINT = ~(1 << SOFI));
+    (UDINT &= ~(1 << SOFI));
   }
 
   if (((UDINT & (1 << SUSPI)) ? (1 == 1) : (0 == 1))
       && ((UDIEN & (1 << SUSPE)) ? (1 == 1) : (0 == 1))) {
     usb_suspended = (1 == 1);
-    (UDINT = ~(1 << WAKEUPI));
+    (UDINT &= ~(1 << WAKEUPI));
     (g_usb_event |= (1 << 5));
-    (UDINT = ~(1 << SUSPI));
+    (UDINT &= ~(1 << SUSPI));
     (UDIEN |= (1 << WAKEUPE));
     (UDIEN &= ~(1 << EORSME));
     (USBCON |= (1 << FRZCLK));
@@ -367,11 +367,11 @@ ISR(USB_GEN_vect)
       while (!(PLLCSR & (1 << PLOCK))) ;
     }
     (USBCON &= ~(1 << FRZCLK));
-    (UDINT = ~(1 << WAKEUPI));
+    (UDINT &= ~(1 << WAKEUPI));
     if (usb_suspended) {
       (UDIEN |= (1 << EORSME));
       (UDIEN |= (1 << EORSTE));
-      (UDINT = ~(1 << WAKEUPI));
+      (UDINT &= ~(1 << WAKEUPI));
       (UDIEN &= ~(1 << WAKEUPE));
       (g_usb_event |= (1 << 6));
       (UDIEN |= (1 << SUSPE));
@@ -385,7 +385,7 @@ ISR(USB_GEN_vect)
       && ((UDIEN & (1 << EORSME)) ? (1 == 1) : (0 == 1))) {
     usb_suspended = (0 == 1);
     (UDIEN &= ~(1 << WAKEUPE));
-    (UDINT = ~(1 << EORSMI));
+    (UDINT &= ~(1 << EORSMI));
     (UDIEN &= ~(1 << EORSME));
     (g_usb_event |= (1 << 7));
   }
@@ -395,7 +395,7 @@ ISR(USB_GEN_vect)
 
     usb_remote_wup_feature = 0;
 
-    (UDINT = ~(1 << EORSTI));
+    (UDINT &= ~(1 << EORSTI));
     usb_init_device();
     (g_usb_event |= (1 << 8));
   }
