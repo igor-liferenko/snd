@@ -1,2 +1,0 @@
-Try to revert 23fd69c..cf4ad15 and check if sound changed in earphones
-and if the same, make the same PLLFRQ and PLLCSR changes as in usb_task.c in the rest files.
