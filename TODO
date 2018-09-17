@@ -1,3 +1,5 @@
+check it once again after last changes
+
 Play via "aplay -D sysdefault:CARD=DEMO test.wav" (test.wav is my.pcm from pcm/)
 and in each function output byte to UART and which byte will not appear, remove that function.
 NOTE: compare with main speakers via "aplay -D sysdefault:CARD=Generic test.wav"
