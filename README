@@ -1,2 +1,3 @@
 How to connect: blue to PD7, red to GND.
 Sound is mono.
+Install libasound2-dev and libasound2-doc packages.
