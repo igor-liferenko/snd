@@ -3,7 +3,7 @@ and in each function output byte to UART and which byte will not appear, remove 
 NOTE: compare with main speakers via "aplay -D sysdefault:CARD=Generic test.wav"
 NOTE: if "aplay" will write error "Device or resource busy", unplug the device, open sound settings and see which device is selected, then plug in the device and select what was selected before
 
-read libasound2-doc and do that pcm/ will work like alsa/ (reason why I want to do without alsa-lib: to be able to compile program out-of-tree for openwrt); another option is to use "aplay" on openwrt (but if TTY is needed, only dir320 must be used because cdc-acm driver is patched there, and on dir320 there may be insufficient space for "aplay")
+read libasound2-doc and do that pcm/ will work like alsa/ (reason why I want to do without alsa-lib: to be able to compile program out-of-tree for openwrt); another option is to use "aplay" on openwrt
 
 ensure via wireshark that pcm file is transmitted as-is in pcm/
 
