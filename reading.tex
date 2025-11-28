@@ -1,8 +1,12 @@
 %&17pt
-\raggedbottom
 \pdfhorigin=12.45mm
 \hsize=\pdfpagewidth \advance\hsize by-2\pdfhorigin
+
 \pdfvorigin=14.2mm
-\vsize=270mm
+\vsize=\pdfpageheight
+\setbox0=\hbox{T} \dimen0=\topskip \advance\dimen0 by-\ht0
+\advance\vsize by-\pdfvorigin \advance\pdfvorigin by-\dimen0 \advance\vsize by-\pdfvorigin
+
+\raggedbottom
 \footline={\hfil\rlap{\raise10pt\hbox{\kern20pt\tenrm\folio}}}
 \tolerance=10000 \hbadness=10000
