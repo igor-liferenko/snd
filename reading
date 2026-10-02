@@ -6,10 +6,18 @@ grep -q $'\xC2\xA0' $1 && { printf 'RUN:\nsed -i \x27s/\\xC2\\xA0//g\x27 %s\n' $
 grep -q $'\xCC\x81' $1 && { printf 'RUN:\nsed -i \x27s/\\xCC\\x81//g\x27 %s\n' $1; exit 1; } # combining acute accent
 cat ~/snd/reading.tex
 cat $1 | \
-sed 's/\(\w\)-\(\w\)/\1\\\\\2/g' | \
+perl -C -pe 's/([^[:ascii:]«»])-([^[:ascii:]«»]{4})/$1\\\\$2/g' | \
+perl -C -pe 's/([^[:ascii:]«»]{4})-([^[:ascii:]«»])/$1\\\\$2/g' | \
 sed 's/…/.../g' | \
 sed 's/–/--/g' | \
 sed 's/—/---/g'
 echo '\bye'
-# add | sed 's/$/\n/' after this script (not inside it), if paragraphs are not separated with blank lines
-# add | perl -C -pe 's/(.{1,99})(?:\s+|$)/$1\n/g'
+exit
+
+If paragraphs are separated with newlines (instead of with blank lines), add:
+
+    | sed 's/$/\n/'
+
+To wrap long lines, add:
+
+    | perl -C -pe 's/(.{1,99})(?:\s+|$)/$1\n/g'
