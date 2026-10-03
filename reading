@@ -1,4 +1,5 @@
 #!/bin/bash
+# TODO: use \\-\\ and fix it in denisych
 [ -e $1 ] || { echo No such file; exit 1; }
 iconv -f UTF-8 -t UCS-2 $1 >/dev/null 2>&1 || { echo Bad input; exit 1; }
 grep -q $'\r' $1 && { printf 'RUN:\nsed -i \x27s/\\r$//\x27 %s\n' $1; exit 1; }
